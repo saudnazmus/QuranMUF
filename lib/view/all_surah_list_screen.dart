@@ -7,7 +7,7 @@ import 'package:quran/constant/app_color.dart';
 import 'package:quran/constant/constant_design.dart';
 import 'package:quran/controller/all_surah_list_controller.dart';
 import 'package:quran/view/surah_details_screen.dart';
-import 'package:quran/widget/numbet_background.dart';
+
 
 class AllSurahListScreen extends StatelessWidget {
   const AllSurahListScreen({super.key});
