@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:quran/view/home_screen.dart';
 
 void main() {
-  
   runApp(const MyApp());
 }
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
       // title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+        // scaffoldBackgroundColor: Colors.white,
 
         // fontFamily: "SourGummy",
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
