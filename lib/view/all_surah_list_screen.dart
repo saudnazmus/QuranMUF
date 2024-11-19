@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:quran/constant/app_color.dart';
 import 'package:quran/constant/constant_design.dart';
 import 'package:quran/controller/all_surah_list_controller.dart';
-import 'package:quran/controller/check_internet_connection.dart';
 import 'package:quran/view/surah_details_screen.dart';
 import 'package:quran/widget/numbet_background.dart';
 
@@ -16,13 +15,9 @@ class AllSurahListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AllSurahListController controller = Get.put(AllSurahListController());
-            final NetworkController networkController = Get.find<NetworkController>();
-    return Obx(() {
-      if (!networkController.isConnected.value) {
-        return Scaffold(
-          body: Center(child: Text('Checking connection...')),
-        );
-      } else {
+    return Obx(
+      () {
+        
         return Obx(() {
           if (controller.isloading.value) {
             return const Center(
@@ -108,10 +103,7 @@ class AllSurahListScreen extends StatelessWidget {
                                   // ),
                                 ),
                                 margin: EdgeInsets.only(
-                                    left: 16.w,
-                                    right: 16.w,
-                                    bottom: 6.h,
-                                    top: 6.h),
+                                    left: 16.w, right: 16.w, bottom: 6.h, top: 6.h),
                                 child: ListTile(
                                   leading: Container(
                                     width: 30.w,
@@ -124,8 +116,7 @@ class AllSurahListScreen extends StatelessWidget {
                                     child: Center(
                                       child: FittedBox(
                                         child: Text(
-                                            controller
-                                                .allSurahList[index].number
+                                            controller.allSurahList[index].number
                                                 .toString(),
                                             style: TextStyle(
                                                 color: AppColor.indexTextColor,
@@ -138,21 +129,19 @@ class AllSurahListScreen extends StatelessWidget {
                                     controller.allSurahList[index].englishName
                                         .toString(),
                                     style: TextStyle(
-                                        color:
-                                            AppColor.primaryTextColorForTitle,
+                                        color: AppColor.primaryTextColorForTitle,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   subtitle: Text(
-                                    controller.allSurahList[index]
-                                        .englishNameTranslation
+                                    controller
+                                        .allSurahList[index].englishNameTranslation
                                         .toString(),
                                     style: TextStyle(
                                         color: AppColor.primarySbuTitleColor,
                                         fontWeight: FontWeight.w400),
                                   ),
                                   trailing: Text(
-                                    controller
-                                        .allSurahList[index].revelationType
+                                    controller.allSurahList[index].revelationType
                                         .toString(),
                                     style: TextStyle(
                                         color: AppColor.primaryColor,
@@ -170,6 +159,6 @@ class AllSurahListScreen extends StatelessWidget {
           }
         });
       }
-    });
+    );
   }
 }
