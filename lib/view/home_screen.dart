@@ -12,25 +12,14 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Muslim Ummah',
+            'MUF Quran',
             style: TextStyle(
               color: AppColor.primaryTextColorForTitle,
               fontWeight: FontWeight.w600,
             ),
           ),
           centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.notifications_none,
-                  size: 25.sp,
-                  color: AppColor.primaryTextColorForTitle,
-                )),
-            horizontalGap(2.w),
-          ],
         ),
-        drawer: const Drawer(),
         body: const SafeArea(child: AllSurahListScreen()));
   }
 }

@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 import 'package:quran/constant/app_color.dart';
 import 'package:quran/constant/constant_design.dart';
 import 'package:quran/controller/all_surah_list_controller.dart';
-import 'package:quran/view/surah_details_screen.dart';
-
+import 'package:quran/view/ayah_of_surah_screen.dart';
 
 class AllSurahListScreen extends StatelessWidget {
   const AllSurahListScreen({super.key});
@@ -16,7 +15,7 @@ class AllSurahListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AllSurahListController controller = Get.put(AllSurahListController());
     return Obx(() {
-      if (controller.isloading.value) {
+      if (controller.isLoading.value) {
         return const Center(
           child: SpinKitWaveSpinner(
             color: Colors.grey,
@@ -27,8 +26,8 @@ class AllSurahListScreen extends StatelessWidget {
       } else {
         return Column(
           children: [
+            // Welcome Banner Section
             Container(
-              // height: 100.h,
               width: double.infinity,
               margin: EdgeInsets.all(16.w),
               padding: EdgeInsets.all(16.w),
@@ -42,21 +41,18 @@ class AllSurahListScreen extends StatelessWidget {
                     opacity: 0.153),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Welcome',
                     style: TextStyle(
-                        // fontFamily: "SourGummy",
                         color: Colors.white,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    'Al-Quran',
+                    'MUF Quran',
                     style: TextStyle(
-                      // fontFamily: "SourGummy",
                       color: Colors.white,
                       fontSize: 25.sp,
                       fontWeight: FontWeight.w600,
@@ -65,7 +61,6 @@ class AllSurahListScreen extends StatelessWidget {
                   Text(
                     'by Muslim Ummah Foundation',
                     style: TextStyle(
-                      // fontFamily: "SourGummy",
                       color: Colors.white,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
@@ -74,9 +69,14 @@ class AllSurahListScreen extends StatelessWidget {
                 ],
               ),
             ),
+            // Empty state check
             controller.allSurahList.isEmpty
                 ? const Center(
-                    child: Text("No data found"),
+                    child: Text(
+                      "No Surahs found",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   )
                 : Expanded(
                     child: ListView.builder(
@@ -84,66 +84,52 @@ class AllSurahListScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Bounceable(
                           onTap: () {
-                            Get.to(() => SurahDetailsScreen(
-                                  surahNumber: controller
-                                      .allSurahList[index].number
-                                      .toString(),
+                            // Handle tap if needed
+                            Get.to(() => SurahAyatView(
+                                  surahNumber:
+                                      controller.allSurahList[index].suraNumber,
+                                  surahName:
+                                      controller.allSurahList[index].suraName,
                                 ));
                           },
                           child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 6.h),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
                               color: AppColor.indexTextColor,
+                              borderRadius: BorderRadius.circular(10.r),
                               boxShadow: listTileShadow,
-                              // border: Border.all(
-                              //   color: AppColor.primaryColor,
-                              // ),
                             ),
-                            margin: EdgeInsets.only(
-                                left: 16.w, right: 16.w, bottom: 6.h, top: 6.h),
                             child: ListTile(
+                              contentPadding: EdgeInsets.all(12.w),
                               leading: Container(
-                                width: 30.w,
-                                height: 30.w,
+                                width: 35.w,
+                                height: 35.w,
                                 decoration: BoxDecoration(
                                   color: AppColor.primaryColor,
-                                  // borderRadius: BorderRadius.circular(10.r),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: FittedBox(
                                     child: Text(
-                                        controller.allSurahList[index].number
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: AppColor.indexTextColor,
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.bold)),
+                                      controller.allSurahList[index].suraNumber
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: AppColor.indexTextColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
                               title: Text(
-                                controller.allSurahList[index].englishName
+                                controller.allSurahList[index].suraName
                                     .toString(),
                                 style: TextStyle(
-                                    color: AppColor.primaryTextColorForTitle,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              subtitle: Text(
-                                controller
-                                    .allSurahList[index].englishNameTranslation
-                                    .toString(),
-                                style: TextStyle(
-                                    color: AppColor.primarySbuTitleColor,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              trailing: Text(
-                                controller.allSurahList[index].revelationType
-                                    .toString(),
-                                style: TextStyle(
-                                    color: AppColor.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 13.sp),
+                                  color: AppColor.primaryTextColorForTitle,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.sp,
+                                ),
                               ),
                             ),
                           ),

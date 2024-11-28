@@ -1,41 +1,38 @@
 class AllSurahListModel {
-  final int number;
-  final String name;
-  final String englishName;
-  final String englishNameTranslation;
-  final int numberOfAyahs;
-  final String revelationType;
+  final int id;
+  final String suraName;
+  final int suraNumber;
 
   AllSurahListModel({
-    required this.number,
-    required this.name,
-    required this.englishName,
-    required this.englishNameTranslation,
-    required this.numberOfAyahs,
-    required this.revelationType,
+    required this.id,
+    required this.suraName,
+    required this.suraNumber,
   });
 
-  // Factory method to create a Surah object from JSON
+  // Factory constructor to create an AllSurahListModel from JSON data
   factory AllSurahListModel.fromJson(Map<String, dynamic> json) {
     return AllSurahListModel(
-      number: json['number'] as int,
-      name: json['name'] as String,
-      englishName: json['englishName'] as String,
-      englishNameTranslation: json['englishNameTranslation'] as String,
-      numberOfAyahs: json['numberOfAyahs'] as int,
-      revelationType: json['revelationType'] as String,
+      id: json['id'],
+      suraName: json['sura_name'],
+      suraNumber: json['sura_number'],
     );
   }
 
-  // Method to convert Surah object to JSON
-  Map<String, dynamic> toJson() {
+  // Convert model to map for inserting into the database
+  Map<String, dynamic> toMap() {
     return {
-      'number': number,
-      'name': name,
-      'englishName': englishName,
-      'englishNameTranslation': englishNameTranslation,
-      'numberOfAyahs': numberOfAyahs,
-      'revelationType': revelationType,
+      'id': id,
+      'sura_name': suraName,
+      'sura_number': suraNumber,
     };
+  }
+
+  // Convert map to model when reading from the database
+  factory AllSurahListModel.fromMap(Map<String, dynamic> map) {
+    return AllSurahListModel(
+      id: map['id'],
+      suraName: map['sura_name'],
+      suraNumber: map['sura_number'],
+    );
   }
 }
