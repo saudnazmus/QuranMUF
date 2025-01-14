@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:quran/constant/app_color.dart';
 import 'package:quran/constant/constant_design.dart';
 import 'package:quran/controller/all_surah_list_controller.dart';
+import 'package:quran/controller/app_fontsize_controller.dart';
 import 'package:quran/view/ayah_of_surah_screen.dart';
 
 class AllSurahListScreen extends StatelessWidget {
@@ -13,14 +14,16 @@ class AllSurahListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AllSurahListController controller = Get.put(AllSurahListController());
+    final AllSurahListController surahController = Get.put(AllSurahListController());
+    final SliderController sliderController = Get.find<SliderController>();
+
     return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(
+      if (surahController.isLoading.value) {
+        return Center(
           child: SpinKitWaveSpinner(
             color: Colors.grey,
-            waveColor: Colors.green,
-            trackColor: Colors.green,
+            waveColor: AppColor.primaryColor,
+            trackColor: AppColor.primaryColor,
           ),
         );
       } else {
@@ -36,60 +39,65 @@ class AllSurahListScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.r),
                 boxShadow: containerShadow,
                 image: const DecorationImage(
-                    image: AssetImage("asset/images/banner_image.png"),
-                    fit: BoxFit.cover,
-                    opacity: 0.153),
+                  image: AssetImage("asset/images/banner_image.png"),
+                  fit: BoxFit.cover,
+                  opacity: 0.15,
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Welcome',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'MUF Quran',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    'by Muslim Ummah Foundation',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                  Obx(() => Text(
+                        'Welcome',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: sliderController.fontSize.value,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )),
+                  Obx(() => Text(
+                        'MUF Quran',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: sliderController.fontSize.value + 5,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )),
+                  Obx(() => Text(
+                        'by Muslim Ummah Foundation',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: sliderController.fontSize.value - 2,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )),
                 ],
               ),
             ),
             // Empty state check
-            controller.allSurahList.isEmpty
-                ? const Center(
-                    child: Text(
-                      "No Surahs found",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            surahController.allSurahList.isEmpty
+                ? Expanded(
+                    child: Center(
+                      child: Obx(() => Text(
+                            "No Surahs found",
+                            style: TextStyle(
+                              fontSize: sliderController.fontSize.value,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.primaryTextColorForTitle,
+                            ),
+                          )),
                     ),
                   )
                 : Expanded(
                     child: ListView.builder(
-                      itemCount: controller.allSurahList.length,
+                      itemCount: surahController.allSurahList.length,
                       itemBuilder: (context, index) {
+                        final surah = surahController.allSurahList[index];
                         return Bounceable(
                           onTap: () {
-                            // Handle tap if needed
                             Get.to(() => SurahAyatView(
-                                  surahNumber:
-                                      controller.allSurahList[index].suraNumber,
-                                  surahName:
-                                      controller.allSurahList[index].suraName,
+                                  surahNumber: surah.suraNumber,
+                                  surahName: surah.suraName,
                                 ));
                           },
                           child: Container(
@@ -111,26 +119,25 @@ class AllSurahListScreen extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: FittedBox(
-                                    child: Text(
-                                      controller.allSurahList[index].suraNumber
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: AppColor.indexTextColor,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    child: Obx(() => Text(
+                                          surah.suraNumber.toString(),
+                                          style: TextStyle(
+                                            color: AppColor.indexTextColor,
+                                            fontSize: sliderController.fontSize.value - 2,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
                                   ),
                                 ),
                               ),
-                              title: Text(
-                                controller.allSurahList[index].suraName
-                                    .toString(),
-                                style: TextStyle(
-                                  color: AppColor.primaryTextColorForTitle,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16.sp,
-                                ),
-                              ),
+                              title: Obx(() => Text(
+                                    surah.suraName,
+                                    style: TextStyle(
+                                      color: AppColor.primaryTextColorForTitle,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: sliderController.fontSize.value,
+                                    ),
+                                  )),
                             ),
                           ),
                         );

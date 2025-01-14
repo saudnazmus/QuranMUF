@@ -9,7 +9,7 @@ class SurahAyatService {
     try {
       final response = await http.get(Uri.parse(
           '$surah_detail_url$surahId')); // Replace with your API URL that accepts Surah ID
-
+      print(response.body);
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         return data.map((item) => SurahAyatModel.fromJson(item)).toList();
@@ -22,5 +22,4 @@ class SurahAyatService {
   }
 
   // Fetch Surah data from local database (if needed)
- 
 }

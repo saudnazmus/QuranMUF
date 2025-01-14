@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 import 'package:quran/model/ayah_of_surah_model.dart';
 import 'package:sqflite/sqflite.dart';

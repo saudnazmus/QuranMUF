@@ -1,40 +1,53 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-
-
+import 'package:quran/constant/app_color.dart';
 import 'package:quran/view/home_screen.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Import the sqflite_common_ffi package
-
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'controller/app_fontsize_controller.dart';
 
 void main() async {
- // Initialize the databaseFactory for ffi (desktop platforms)
- 
-  databaseFactory = databaseFactoryFfi; // Set the databaseFactory to ffi
-  runApp(MyApp());
-}
+  WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize sqflite for desktop platforms
+  if (!Platform.isAndroid && !Platform.isIOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  // Initialize the SliderController and load saved value
+  final SliderController sliderController = Get.put(SliderController());
+  sliderController.loadFontSize();
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // fontFamily: "SourGummy",
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
-      home: ScreenUtilInit(
-        designSize: const Size(360, 690),
-        builder: (context, child) => HomeScreen(),
-      ),
+    return ScreenUtilInit(
+      designSize: Size(320, 600),
+      builder: (context, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Dynamic Font Size App',
+          theme: ThemeData(
+            primaryColor: AppColor.primaryColor,
+            primarySwatch: Colors.blue,
+        
+            textTheme: TextTheme(
+              bodyLarge: TextStyle(fontSize: 16.sp), // Default size
+              bodyMedium: TextStyle(fontSize: 14.sp),
+            ),
+          ),
+          home: HomeScreen(),
+        );
+      },
     );
   }
 }
