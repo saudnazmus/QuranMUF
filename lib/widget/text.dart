@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class GlobalText extends StatelessWidget {
   final String text;
   final TextStyle? style;
-  final TextDirection? textDirection;
   final TextAlign? textAlign;
-  final TextOverflow? overflow;
-  final int? maxLines;
+  final TextDirection? textDirection;
 
-  final Locale? locale;
-  const GlobalText({super.key, required this.text, this.style, this.textDirection, this.textAlign, this.overflow, this.maxLines, this.locale});
+  const GlobalText({
+    super.key,
+    required this.text,
+    this.style,
+    this.textAlign,
+    this.textDirection,
+  });
 
   @override
   Widget build(BuildContext context) {
-     var document = parse(text);
-    String cleanText = document.body?.text ?? ''; // Extracts only the text part
-    return  Text(
-      cleanText,
-      style: style,
-      textDirection: textDirection,
-      textAlign: textAlign,
-      overflow: overflow,
-      maxLines: maxLines,
-      locale: locale,);
+    return Directionality(
+      textDirection:
+          textDirection ?? TextDirection.ltr, // Default to LTR if not provided
+      child: Html(
+        data: text, // Directly render HTML
+        style: {
+          "body": Style(
+            fontSize: style?.fontSize != null
+                ? FontSize(style!.fontSize!)
+                : FontSize.medium,
+            fontWeight: style?.fontWeight,
+            color: style?.color,
+            textAlign: textAlign ?? TextAlign.start,
+          ),
+        },
+      ),
+    );
   }
 }

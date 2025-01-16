@@ -66,22 +66,24 @@ class SurahAyatView extends StatelessWidget {
               controller: scrollController,
               slivers: [
                 SliverAppBar(
-                  elevation: 0,
                   pinned: true,
-                  expandedHeight: 120.h,
+                  elevation: 0,
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.white,
+                  expandedHeight: (sliderController.fontSize.value * 7) +
+                      kToolbarHeight, // Adjust height dynamically
                   flexibleSpace: LayoutBuilder(
                     builder:
                         (BuildContext context, BoxConstraints constraints) {
                       double collapsePercent =
                           (constraints.maxHeight - kToolbarHeight) /
-                              (120.h - kToolbarHeight);
+                              ((sliderController.fontSize.value * 7) -
+                                  kToolbarHeight);
 
                       return FlexibleSpaceBar(
-                        titlePadding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 12.h,
+                        titlePadding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, // Keep it relative to design
+                          vertical: 12.0,
                         ),
                         title: collapsePercent < 0.5
                             ? Text(
@@ -95,11 +97,11 @@ class SurahAyatView extends StatelessWidget {
                             : null,
                         background: Container(
                           width: double.infinity,
-                          margin: EdgeInsets.all(16.w),
-                          padding: EdgeInsets.all(16.w),
+                          margin: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
                             color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.circular(10.r),
+                            borderRadius: BorderRadius.circular(10.0),
                             boxShadow: containerShadow,
                             image: const DecorationImage(
                               image:
@@ -130,7 +132,9 @@ class SurahAyatView extends StatelessWidget {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   )),
-                              verticalGap(8.h),
+                              SizedBox(
+                                  height: sliderController.fontSize.value *
+                                      0.5), // Responsive spacing
                               Obx(() => Text(
                                     'Surah: $surahName',
                                     style: TextStyle(
