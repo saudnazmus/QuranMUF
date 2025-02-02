@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Dynamic Font Size App',
+          title: 'Dynamic Font Size App Example',
           theme: ThemeData(
             primaryColor: AppColor.primaryColor,
             primarySwatch: Colors.blue,
